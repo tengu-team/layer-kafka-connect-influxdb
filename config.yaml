@@ -1,0 +1,10 @@
+options:
+  kcql:
+    type: string
+    default: ""
+    description: "KCQL statement. Syntax at https://lenses.stream/2.0/connectors/sink/influx.html#kcql-support."
+  database:
+    type: string
+    default: ""
+    description: "Name of the InfluxDB database to be created/used."
+

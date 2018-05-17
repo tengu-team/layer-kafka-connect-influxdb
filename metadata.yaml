@@ -1,0 +1,8 @@
+name: layer-kafka-connect-influxdb
+summary: Kafka connect for InfluxDB
+maintainer: Sander Borny <sander.borny@ugent.be>
+description: |
+  Kafka connect for InfluxDB
+requires:
+  influxdb:
+    interface: influxdb-api

@@ -1,0 +1,3 @@
+includes: ['layer:kafka-connect-base',
+           'interface:influxdb-api']
+repo: https://github.com/tengu-team/layer-kafka-connect-influxdb.git
