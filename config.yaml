@@ -7,4 +7,9 @@ options:
     type: string
     default: ""
     description: "Name of the InfluxDB database to be created/used."
+  max-tasks:
+    type: int
+    default: 5
+    description: |
+      Max number of tasks.
 

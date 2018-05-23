@@ -45,7 +45,7 @@ def waiting_database():
 @when('kafka-connect-base.ready',
       'config.set.database',
       'config.set.kcql',
-      'config.set.max-tasks',  # TODO check if topics also needs to be in here
+      'config.set.max-tasks',
       'influxdb.available')
 def status_set_ready():
     # This is mainly so multiple subordinate charms don't
@@ -99,13 +99,14 @@ def configure_kc_influxdb():
 def start_kc_influxdb():
     # Get all config for the InfluxDB connector.
     influxdb = endpoint_from_flag('influxdb.available')
-    ensure_db_exists(conf.get('database'), influxdb.hostname(), influxdb.port())
+    if not ensure_db_exists(conf.get('database'), influxdb.hostname(), influxdb.port()):
+        return
     connector_configs = {
         'connector.class': 'com.datamountaineer.streamreactor.connect.influx.InfluxSinkConnector',
         'tasks.max': str(conf.get('max-tasks')),
         'connect.influx.url': 'http://' + influxdb.hostname() + ':' + influxdb.port(),
         'connect.influx.db': conf.get('database'),
-        'connect.influx.username': influxdb.username(),
+        'connect.influx.username': influxdb.user(),
         'connect.influx.password': influxdb.password(),
         'connect.influx.kcql': conf.get('kcql'),
         'topics': conf.get("topics").replace(" ", ","),
@@ -145,7 +146,7 @@ def ensure_db_exists(database, influxdb_host, influxdb_port):
     data = {
         'q': 'CREATE DATABASE {}'.format(database),
     }
-    url = "http://{}:{}".format(influxdb_host, influxdb_port)
+    url = "http://{}:{}/query".format(influxdb_host, influxdb_port)
     try:
         resp = requests.post(url, data=data)
         resp.raise_for_status()

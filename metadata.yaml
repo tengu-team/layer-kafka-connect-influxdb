@@ -1,4 +1,4 @@
-name: layer-kafka-connect-influxdb
+name: kafka-connect-influxdb
 summary: Kafka connect for InfluxDB
 maintainer: Sander Borny <sander.borny@ugent.be>
 description: |
